@@ -6,6 +6,7 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 // const cookieParser = require("cookie-parser")
 const vulnRouter = require("./routes/vulnRoutes")
+const appRouter = require("./routes/application.routes")
 
 app.use(logger('dev'))
 app.use(express.json())
@@ -24,6 +25,7 @@ mongoose.connect(process.env.DB_URI)
 
 
 app.use('/vulnerabilities',vulnRouter)
+app.use('/applications', appRouter)
 
 
 app.listen(3000, ()=>{
