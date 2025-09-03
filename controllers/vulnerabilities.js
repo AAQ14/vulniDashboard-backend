@@ -42,7 +42,7 @@ const vulnIndex = async (req, res) => {
     try {
         const vuln = await Vulnerability.findById(req.params.id)
         if (vuln)
-            res.status(200).josn(vuln)
+            res.status(200).json(vuln)
         else
             res.sendStatus(404)
     } catch (err) {
@@ -54,7 +54,7 @@ const allVulns = async (req, res) => {
     try {
         const allVulns = await Vulnerability.find()
         if (allVulns)
-            res.satatus(200).json(allVulns)
+            res.status(200).json(allVulns)
         else
             res.sendStatus(404)
     } catch (err) {
@@ -66,11 +66,11 @@ const updateVul = async (req, res) => {
     try {
         const vuln = await Vulnerability.findByIdAndUpdate(req.params.id, req.body)
         if (vuln)
-            res.satatus(200).json(vuln)
+            res.status(200).json(vuln)
         else
             res.sendStatus(404)
     } catch (err) {
-        res.satatus(500).json({ error: err.message })
+        res.status(500).json({ error: err.message })
     }
 }
 
@@ -78,11 +78,11 @@ const deleteVuln = async (req, res) => {
     try {
         const vuln = await Vulnerability.findOneAndDelete(req.params.id)
         if (vuln)
-            res.satatus(200).json(vuln)
+            res.status(200).json(vuln)
         else
             res.sendStatus(500)
     } catch (err) {
-        res.satatus(500).josn({ error: err.message })
+        res.status(500).josn({ error: err.message })
     }
 }
 
