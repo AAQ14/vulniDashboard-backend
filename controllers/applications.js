@@ -49,12 +49,13 @@ const updateApp = async(req,res) =>{
 
 const deleteApp = async(req,res) =>{
     try {
-        const app = Application.findByIdAndDelete(req.params.id)
+        const app = await Application.findByIdAndDelete(req.params.id)
         if(app)
             res.status(200).json(app)
         else
             res.sendStatus(404)
     } catch (err) {
+        console.log(err)
         res.status(500).json({error: err.message})
     }
 }
