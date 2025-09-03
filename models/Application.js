@@ -10,11 +10,7 @@ const applicationSchema = new Schema({
     }, identifier: {
         type: String,
         required: true
-    }, owner: String,
-    vulnerabilites:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Vulnerability'
-    }]
+    }, owner: String
 })
 
 const Application = model('Application', applicationSchema)
