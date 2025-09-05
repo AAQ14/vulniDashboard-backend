@@ -4,23 +4,24 @@ const cvss = require("cvss")
 const createVuln = async (req, res) => {
     try {
         //Attack vactor
-        const AV = req.body.attackVactor
+        const AV = req.body.AV
         //Attack complexity
-        const AC = req.body.attackComplexity
+        const AC = req.body.AC
         //Privileges required
-        const PR = req.body.privilegeRequired
+        const PR = req.body.PR
         //Uesr Interaction
-        const UI = req.body.userInteraction
+        const UI = req.body.UI
         //scope
-        const S = req.body.scope
+        const S = req.body.S
         //confidentiality
-        const C = req.body.confidentiality
+        const C = req.body.C
         //integrity
-        const I = req.body.integrity
+        const I = req.body.I
         //availability
-        const A = req.body.availability
+        const A = req.body.A
 
         const vectorString = `CVSS:3.0/AV:${AV}/AC:${AC}/PR:${PR}/UI:${UI}/S:${S}/C:${C}/I:${I}/A:${A}`
+        req.body.cvssVector = vectorString
         console.log(vectorString)
         const score = cvss.getScore(vectorString)
         console.log(score)
@@ -52,7 +53,7 @@ const vulnIndex = async (req, res) => {
 
 const allVulns = async (req, res) => {
     try {
-        const allVulns = await Vulnerability.find()
+        const allVulns = await Vulnerability.find().populate(['app'])
         if (allVulns)
             res.status(200).json(allVulns)
         else
