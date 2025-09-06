@@ -21,11 +21,11 @@ const assetSchema = new Schema({
             critical : Number
         },
         default: {
-             None: 0,
-            Low : 0,
-            Medium:  0,
-            High: 0,
-            Critical : 0
+             none: 0,
+            low : 0,
+            medium:  0,
+            high: 0,
+            critical : 0
         }
     }
 })

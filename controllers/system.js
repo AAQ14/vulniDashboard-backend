@@ -28,7 +28,7 @@ async function test(){
     console.log(assets)
     let low = 0
     assets.forEach(asset => {
-       low += asset.vulnerabilities.Low
+       low += asset.vulnerabilities.low
     })
     console.log(low)
     // const vulns = await Vuln.find()
@@ -45,10 +45,10 @@ const updateSystem = async (req,res) =>{
         system.vulnerabilities = vulns.length
 
         assets.forEach(asset =>{
-            system.lowSeverityVulns += asset.vulnerabilities.Low
-            system.lowSeverityVulns += asset.vulnerabilities.Medium
-            system.lowSeverityVulns += asset.vulnerabilities.High
-            system.lowSeverityVulns += asset.vulnerabilities.Critical
+            system.lowSeverityVulns += asset.vulnerabilities.low
+            system.lowSeverityVulns += asset.vulnerabilities.medium
+            system.lowSeverityVulns += asset.vulnerabilities.high
+            system.lowSeverityVulns += asset.vulnerabilities.critical
         })
         
     } catch (err) {

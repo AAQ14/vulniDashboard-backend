@@ -34,15 +34,15 @@ const createVuln = async (req, res) => {
         const asset = await Asset.findById(req.body.asset)
         if (req.body.status !== 'Fixed') {
             if (req.body.rating === 'Critical') {
-                await asset.vulnerabilities.Critical++
+                await asset.vulnerabilities.critical++
                 asset.save()
             } else if (req.body.rating === 'High') {
-                await asset.vulnerabilities.High++
+                await asset.vulnerabilities.high++
                 asset.save()
-            } else if (req.body.rating === 'Low') {
+            } else if (req.body.rating === 'low') {
                 await asset.vulnerabilities.Low++
                 asset.save()
-            } else if (req.body.rating === 'Medium') {
+            } else if (req.body.rating === 'medium') {
                 await asset.vulnerabilities.Medium++
                 asset.save()
             }
