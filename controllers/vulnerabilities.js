@@ -1,4 +1,5 @@
 const Vulnerability = require("../models/Vulnerability")
+const Application = require("../models/Application")
 const cvss = require("cvss")
 
 const createVuln = async (req, res) => {
@@ -30,6 +31,26 @@ const createVuln = async (req, res) => {
         console.log(rating)
         req.body.rating = rating
 
+        const app = await Application.findById(req.body.app)
+        if (req.body.status !== 'Fixed') {
+            if (req.body.rating === 'Critical') {
+                await app.vulnerabilities.Critical++
+                app.save()
+            } else if (req.body.rating === 'High') {
+                await app.vulnerabilities.High++
+                app.save()
+            } else if (req.body.rating === 'Low') {
+                await app.vulnerabilities.Low++
+                app.save()
+            } else if (req.body.rating === 'Medium') {
+                await app.vulnerabilities.Medium++
+                app.save()
+            }
+        }
+
+
+        console.log(app)
+        
         const createdVulnerability = await Vulnerability.create(req.body)
         if (createdVulnerability)
             res.status(201).json(createdVulnerability)
@@ -65,7 +86,7 @@ const allVulns = async (req, res) => {
 
 const updateVul = async (req, res) => {
     try {
-         //Attack vactor
+        //Attack vactor
         const AV = req.body.AV
         //Attack complexity
         const AC = req.body.AC
