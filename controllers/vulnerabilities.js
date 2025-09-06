@@ -60,7 +60,7 @@ const createVuln = async (req, res) => {
     }
 }
 
-const vulnIndex = async (req, res) => {
+const vulnDetails = async (req, res) => {
     try {
         const vuln = await Vulnerability.findById(req.params.id)
         if (vuln)
@@ -72,7 +72,7 @@ const vulnIndex = async (req, res) => {
     }
 }
 
-const allVulns = async (req, res) => {
+const vulnIndex = async (req, res) => {
     try {
         const allVulns = await Vulnerability.find().populate(['asset'])
         if (allVulns)
@@ -140,5 +140,5 @@ module.exports =
     vulnIndex,
     deleteVuln,
     updateVul,
-    allVulns
+    vulnDetails
 }

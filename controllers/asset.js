@@ -11,7 +11,7 @@ const createAsset = async(req,res)=>{
     }
 }
 
-const assetIndex= async(req,res) =>{
+const assetDetails= async(req,res) =>{
     try {
         const asset = await Asset.findById(req.params.id)
         if(asset)
@@ -23,7 +23,7 @@ const assetIndex= async(req,res) =>{
     }
 }
 
-const allAssets = async(req,res) => {
+const assetIndex = async(req,res) => {
     try {
         const asset = await Asset.find()
         if(asset)
@@ -65,5 +65,5 @@ module.exports = {
     deleteAsset,
     updateAsset,
     assetIndex,
-    allAssets
+    assetDetails
 }
