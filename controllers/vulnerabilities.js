@@ -1,5 +1,5 @@
 const Vulnerability = require("../models/Vulnerability")
-const Application = require("../models/Application")
+const Asset = require("../models/Asset")
 const cvss = require("cvss")
 
 const createVuln = async (req, res) => {
@@ -31,25 +31,25 @@ const createVuln = async (req, res) => {
         console.log(rating)
         req.body.rating = rating
 
-        const app = await Application.findById(req.body.app)
+        const asset = await Asset.findById(req.body.asset)
         if (req.body.status !== 'Fixed') {
             if (req.body.rating === 'Critical') {
-                await app.vulnerabilities.Critical++
-                app.save()
+                await asset.vulnerabilities.Critical++
+                asset.save()
             } else if (req.body.rating === 'High') {
-                await app.vulnerabilities.High++
-                app.save()
+                await asset.vulnerabilities.High++
+                asset.save()
             } else if (req.body.rating === 'Low') {
-                await app.vulnerabilities.Low++
-                app.save()
+                await asset.vulnerabilities.Low++
+                asset.save()
             } else if (req.body.rating === 'Medium') {
-                await app.vulnerabilities.Medium++
-                app.save()
+                await asset.vulnerabilities.Medium++
+                asset.save()
             }
         }
 
 
-        console.log(app)
+        console.log(asset)
         
         const createdVulnerability = await Vulnerability.create(req.body)
         if (createdVulnerability)
