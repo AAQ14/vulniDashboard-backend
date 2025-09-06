@@ -1,10 +1,10 @@
-const applicationController = require('../controllers/applications')
+const assetController = require('../controllers/asset')
 const router = require('express').Router()
 
-router.get("/", applicationController.allApps)
-router.post("/add", applicationController.createApp)
-router.get("/:id", applicationController.appIndex)
-router.put("/update/:id", applicationController.updateApp)
-router.delete("/delete/:id", applicationController.deleteApp)
+router.get("/", assetController.allAssets)
+router.post("/add", assetController.createAsset)
+router.get("/:id", assetController.assetIndex)
+router.put("/update/:id", assetController.updateAsset)
+router.delete("/delete/:id", assetController.deleteAsset)
 
 module.exports = router
