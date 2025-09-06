@@ -65,6 +65,32 @@ const allVulns = async (req, res) => {
 
 const updateVul = async (req, res) => {
     try {
+         //Attack vactor
+        const AV = req.body.AV
+        //Attack complexity
+        const AC = req.body.AC
+        //Privileges required
+        const PR = req.body.PR
+        //Uesr Interaction
+        const UI = req.body.UI
+        //scope
+        const S = req.body.S
+        //confidentiality
+        const C = req.body.C
+        //integrity
+        const I = req.body.I
+        //availability
+        const A = req.body.A
+
+        const vectorString = `CVSS:3.0/AV:${AV}/AC:${AC}/PR:${PR}/UI:${UI}/S:${S}/C:${C}/I:${I}/A:${A}`
+        req.body.cvssVector = vectorString
+        console.log(vectorString)
+        const score = cvss.getScore(vectorString)
+        console.log(score)
+        req.body.score = score
+        const rating = cvss.getRating(score)
+        console.log(rating)
+        req.body.rating = rating
         const vuln = await Vulnerability.findByIdAndUpdate(req.params.id, req.body)
         if (vuln)
             res.status(200).json(vuln)
