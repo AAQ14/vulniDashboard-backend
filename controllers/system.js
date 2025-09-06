@@ -1,4 +1,6 @@
 const System = require("../models/System")
+const Asset = require("../models/Asset")
+const Vuln = require("../models/Vulnerability")
 
 const systemIndex = async(req,res) =>{
     try {
@@ -21,6 +23,38 @@ const createSystem = async(req,res) =>{
     }
 }
 
+async function test(){
+    const assets = await Asset.find()
+    console.log(assets)
+    let low = 0
+    assets.forEach(asset => {
+       low += asset.vulnerabilities.Low
+    })
+    console.log(low)
+    // const vulns = await Vuln.find()
+    // console.log(vulns.length)
+}
+
+test()
+
+const updateSystem = async (req,res) =>{
+    try {
+        const system = await System.findById(req.params.id)
+        const vulns = await Vuln.find()
+        const assets = await Asset.find()
+        system.vulnerabilities = vulns.length
+
+        assets.forEach(asset =>{
+            system.lowSeverityVulns += asset.vulnerabilities.Low
+            system.lowSeverityVulns += asset.vulnerabilities.Medium
+            system.lowSeverityVulns += asset.vulnerabilities.High
+            system.lowSeverityVulns += asset.vulnerabilities.Critical
+        })
+        
+    } catch (err) {
+        res.status(500).json({error: err.message})
+    }
+}
 
 module.exports = {
     systemIndex,
