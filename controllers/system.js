@@ -23,5 +23,6 @@ const createSystem = async(req,res) =>{
 
 
 module.exports = {
-    systemIndex
+    systemIndex,
+    createSystem
 }

@@ -8,6 +8,7 @@ const cors = require("cors")
 const vulnRouter = require("./routes/vulnRoutes")
 const assetRouter = require("./routes/assetRoutes")
 const authRouter = require("./routes/authRoutes")
+const systemRouter = require("./routes/systemRoutes")
 
 app.use(logger('dev'))
 app.use(express.json())
@@ -28,6 +29,7 @@ mongoose.connect(process.env.DB_URI)
 app.use('/vulnerabilities',vulnRouter)
 app.use('/assets', assetRouter)
 app.use('/auth', authRouter)
+app.use('/systems', systemRouter)
 
 app.listen(3000, ()=>{
     console.log("listening on port 3000")
