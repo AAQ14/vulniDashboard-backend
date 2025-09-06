@@ -2,8 +2,8 @@ const {Schema, model} = require("mongoose")
 
 
 
-const applicationSchema = new Schema({
-    appName : {
+const assetSchema = new Schema({
+    name : {
         type: String,
         required: true
     }, type: {
@@ -32,5 +32,5 @@ const applicationSchema = new Schema({
     }
 })
 
-const Application = model('Application', applicationSchema)
-module.exports = Application
+const Asset = model('Asset', assetSchema)
+module.exports = Asset
