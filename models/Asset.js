@@ -14,11 +14,11 @@ const assetSchema = new Schema({
     vulnerabilities: {
         type: Object,
         properties:{
-            None: Number,
-            Low : Number,
-            Medium:  Number,
-            High:  Number,
-            Critical : Number
+            none: Number,
+            low : Number,
+            medium:  Number,
+            high:  Number,
+            critical : Number
         },
         default: {
              None: 0,
