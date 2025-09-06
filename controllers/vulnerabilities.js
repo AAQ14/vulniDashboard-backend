@@ -74,7 +74,7 @@ const vulnIndex = async (req, res) => {
 
 const allVulns = async (req, res) => {
     try {
-        const allVulns = await Vulnerability.find().populate(['app'])
+        const allVulns = await Vulnerability.find().populate(['asset'])
         if (allVulns)
             res.status(200).json(allVulns)
         else
