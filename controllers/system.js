@@ -27,8 +27,14 @@ async function test() {
     const assets = await Asset.find()
     // console.log(assets)
     let low = 0
+    let numOfApp = 0 
+    let numOfInfra = 0
     assets.forEach(asset => {
         low += asset.vulnerabilities.low
+        if(asset.type === 'Web App' ||asset.type === 'Mobile App' ||asset.type === 'Desktop Software') 
+               numOfApp += 1
+            else
+                numOfInfra += 1
     })
     // console.log(low)
     const vulns = await Vuln.find()
@@ -41,11 +47,9 @@ async function test() {
         }
     })
     console.log(openVuln)
-    //test IMPP
-//  if(asset.type === 'Web App' ||asset.type === 'Mobile App' ||asset.type === 'Desktop Software') 
-//                 system.applications += 1
-//             else
-//                 system.infrastructures += 1
+    console.log("num of app: " + numOfApp + " -- num of infra: " + numOfInfra)
+    // test IMPP
+ 
 
 }
 
