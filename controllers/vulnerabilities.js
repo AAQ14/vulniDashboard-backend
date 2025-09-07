@@ -32,24 +32,27 @@ const createVuln = async (req, res) => {
         req.body.rating = rating
 
         const asset = await Asset.findById(req.body.asset)
+        console.log('asset',asset)
+        console.log('req.body',req.body)
+        console.log('req.body.status',req.body.status)
+
         if (req.body.status !== 'Fixed') {
             if (req.body.rating === 'Critical') {
-                await asset.vulnerabilities.critical++
-                asset.save()
+                 asset.vulnerabilities.critical+=1
             } else if (req.body.rating === 'High') {
-                await asset.vulnerabilities.high++
-                asset.save()
+                 asset.vulnerabilities.high+=1
             } else if (req.body.rating === 'low') {
-                await asset.vulnerabilities.Low++
-                asset.save()
+                 asset.vulnerabilities.low+=1
             } else if (req.body.rating === 'medium') {
-                await asset.vulnerabilities.Medium++
-                asset.save()
+                 asset.vulnerabilities.medium+=1
+               
             }
         }
 
 
-        console.log(asset)
+        const updatedAsset = await Asset.findByIdAndUpdate(asset._id, asset)
+
+        console.log(updatedAsset)
         
         const createdVulnerability = await Vulnerability.create(req.body)
         if (createdVulnerability)

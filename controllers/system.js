@@ -41,7 +41,11 @@ async function test() {
         }
     })
     console.log(openVuln)
-
+    //test IMPP
+//  if(asset.type === 'Web App' ||asset.type === 'Mobile App' ||asset.type === 'Desktop Software') 
+//                 system.applications += 1
+//             else
+//                 system.infrastructures += 1
 
 }
 
