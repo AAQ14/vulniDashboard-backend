@@ -32,20 +32,20 @@ const createVuln = async (req, res) => {
         req.body.rating = rating
 
         const asset = await Asset.findById(req.body.asset)
-        console.log('asset',asset)
-        console.log('req.body',req.body)
-        console.log('req.body.status',req.body.status)
+        console.log('asset', asset)
+        console.log('req.body', req.body)
+        console.log('req.body.status', req.body.status)
 
         if (req.body.status !== 'Fixed') {
             if (req.body.rating === 'Critical') {
-                 asset.vulnerabilities.critical+=1
+                asset.vulnerabilities.critical += 1
             } else if (req.body.rating === 'High') {
-                 asset.vulnerabilities.high+=1
+                asset.vulnerabilities.high += 1
             } else if (req.body.rating === 'low') {
-                 asset.vulnerabilities.low+=1
+                asset.vulnerabilities.low += 1
             } else if (req.body.rating === 'medium') {
-                 asset.vulnerabilities.medium+=1
-               
+                asset.vulnerabilities.medium += 1
+
             }
         }
 
@@ -53,7 +53,7 @@ const createVuln = async (req, res) => {
         const updatedAsset = await Asset.findByIdAndUpdate(asset._id, asset)
 
         console.log(updatedAsset)
-        
+
         const createdVulnerability = await Vulnerability.create(req.body)
         if (createdVulnerability)
             res.status(201).json(createdVulnerability)
@@ -89,6 +89,10 @@ const vulnIndex = async (req, res) => {
 
 const updateVul = async (req, res) => {
     try {
+        const selectedVul = await Vulnerability.findById(req.params.id)
+        console.log("this is the rating----", selectedVul.rating, "-----")
+
+
         //Attack vactor
         const AV = req.body.AV
         //Attack complexity
@@ -108,13 +112,31 @@ const updateVul = async (req, res) => {
 
         const vectorString = `CVSS:3.0/AV:${AV}/AC:${AC}/PR:${PR}/UI:${UI}/S:${S}/C:${C}/I:${I}/A:${A}`
         req.body.cvssVector = vectorString
-        console.log(vectorString)
         const score = cvss.getScore(vectorString)
-        console.log(score)
         req.body.score = score
         const rating = cvss.getRating(score)
-        console.log(rating)
         req.body.rating = rating
+
+        const asset = await Asset.findById(req.body.asset._id)
+
+
+        if (req.body.rating !== selectedVul.rating) {
+            console.log("the rating different ----prev rating ", selectedVul.rating, "----new rating", req.body.rating, "------")
+            for (let [key, index] of Object.entries(asset.vulnerabilities)) {
+                if (key === selectedVul.rating.toLowerCase()) {
+                    asset.vulnerabilities[key] -= 1
+                }
+                if (key === req.body.rating.toLowerCase()) {
+                    asset.vulnerabilities[key] += 1
+                }
+            }
+        }
+
+        await asset.save()
+        const updatedAsset = await Asset.findByIdAndUpdate(asset._id, asset)
+        console.log(asset)
+
+
         const vuln = await Vulnerability.findByIdAndUpdate(req.params.id, req.body)
         if (vuln)
             res.status(200).json(vuln)
