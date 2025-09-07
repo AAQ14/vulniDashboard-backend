@@ -41,11 +41,10 @@ const createVuln = async (req, res) => {
                 asset.vulnerabilities.critical += 1
             } else if (req.body.rating === 'High') {
                 asset.vulnerabilities.high += 1
-            } else if (req.body.rating === 'low') {
+            } else if (req.body.rating === 'Low') {
                 asset.vulnerabilities.low += 1
-            } else if (req.body.rating === 'medium') {
+            } else if (req.body.rating === 'Medium') {
                 asset.vulnerabilities.medium += 1
-
             }
         }
 
@@ -149,7 +148,15 @@ const updateVul = async (req, res) => {
 
 const deleteVuln = async (req, res) => {
     try {
-        const vuln = await Vulnerability.findOneAndDelete(req.params.id)
+        const vuln = await Vulnerability.findByIdAndDelete(req.params.id)
+        const asset = await Asset.findById(vuln.asset)
+        for (let [key, index] of Object.entries(asset.vulnerabilities)){
+            if(key === vuln.rating.toLowerCase())
+            {
+                asset.vulnerabilities[key] -= 1
+            }
+        }
+        await Asset.findByIdAndUpdate(asset._id, asset)
         if (vuln)
             res.status(200).json(vuln)
         else
