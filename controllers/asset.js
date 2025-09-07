@@ -1,4 +1,5 @@
 const Asset = require("../models/Asset")
+const Vulnerability = require("../models/Vulnerability")
 
 const createAsset = async(req,res)=>{
     try {
@@ -50,6 +51,12 @@ const updateAsset = async(req,res) =>{
 const deleteAsset = async(req,res) =>{
     try {
         const asset = await Asset.findByIdAndDelete(req.params.id)
+        const vulns = await Vulnerability.find({asset : asset._id})
+        
+        vulns.forEach(async vul=>{
+            await Vulnerability.findByIdAndDelete(vul._id)
+        })
+
         if(asset)
             res.status(200).json(asset)
         else
