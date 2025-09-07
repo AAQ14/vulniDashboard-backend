@@ -1,6 +1,7 @@
 const {model, Schema} = require("mongoose")
 
 const systemSchema = new Schema({
+    userId :{type: Schema.Types.ObjectId, ref:"User"},
     infrastructures : {type: Number, default:0},
     applications: {type: Number, default:0},
     vulnerabilities: {type: Number, default:0},

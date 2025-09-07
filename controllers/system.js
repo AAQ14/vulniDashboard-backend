@@ -16,7 +16,7 @@ const systemIndex = async (req, res) => {
 
 const createSystem = async (req, res) => {
     try {
-        const created = await System.create(req.body)
+        const created = await System.create()
         res.status(201).json(created)
     } catch (err) {
         res.status(500).json({ error: err.message })
