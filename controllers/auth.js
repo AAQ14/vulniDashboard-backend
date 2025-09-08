@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
+const System = require("../models/System")
 
 const SECRET = process.env.SECRET
 
@@ -26,12 +27,14 @@ exports.register = async(req, res)=>{
         const payload = {
            id: newUser._id
         }
+        
+        await System.create({userId: newUser._id.toHexString()})
 
         const token = jwt.sign(payload, SECRET, {expiresIn: '1d'})
         
-        res.status(201).json({message: 'User registered successfully', token})
+        return res.status(201).json({message: 'User registered successfully', token})
     } catch (err) {
-        res.status(500).json({message: err.message})
+        return res.status(500).json({message: err.message})
     }
 }
 
