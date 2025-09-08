@@ -6,22 +6,23 @@ const systemIndex = async (req, res) => {
     try {
         const allsystems = await System.find()
         if (allsystems.length)
-            res.status(200).json(allsystems)
+            return res.status(200).json(allsystems)
         else
-            res.sendStatus(404)
+            return res.sendStatus(404)
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        return res.status(500).json({ error: err.message })
     }
 }
 
 const createSystem = async (req, res) => {
     try {
-        const created = await System.create()
-        res.status(201).json(created)
+        const created = await System.create(req.body)
+        return res.status(201).json(created)
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        return res.status(500).json({ error: err.message })
     }
 }
+
 
 async function test() {
     const assets = await Asset.find()
@@ -91,7 +92,7 @@ const updateSystem = async (req, res) => {
 
 const systemDetails = async (req, res) =>{
     try {
-        const system = await System.findOne({userId: req.body})
+        const system = await System.findOne({userId: req.body.userId})
         if(system){
             return res.status(200).json(system)
         }else{
