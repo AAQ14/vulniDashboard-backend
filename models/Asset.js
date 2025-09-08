@@ -27,6 +27,9 @@ const assetSchema = new Schema({
             high: 0,
             critical : 0
         }
+    },user:{
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
 })
 
