@@ -25,7 +25,8 @@ exports.register = async(req, res)=>{
         await newUser.save()
 
         const payload = {
-           id: newUser._id
+           id: newUser._id,
+           username: newUser.username
         }
         
         await System.create({userId: newUser._id.toHexString()})
@@ -51,7 +52,8 @@ exports.login = async (req,res)=>{
             return res.status(401).json({message: 'Invalid email or password'})
 
         const payload = {
-           id: user._id
+           id: user._id,
+           username: user.username
         }
 
         const token = jwt.sign(payload, SECRET, {expiresIn: '1d'})
