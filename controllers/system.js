@@ -89,7 +89,22 @@ const updateSystem = async (req, res) => {
     }
 }
 
+const systemDetails = async (req, res) =>{
+    try {
+        const system = await System.findOne({userId: req.body})
+        if(system){
+            return res.status(200).json(system)
+        }else{
+            return res.sendStatus(404)
+        }
+    } catch (err) {
+        return res.status(500).json({error: err.message})
+    }
+}
+
+
 module.exports = {
     systemIndex,
-    createSystem
+    createSystem,
+    systemDetails
 }
