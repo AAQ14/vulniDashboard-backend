@@ -51,16 +51,21 @@ async function test() {
     console.log("num of app: " + numOfApp + " -- num of infra: " + numOfInfra)
     // test IMPP
  
+    const findAssets = await Asset.find({user:"68b81d302279241b23e01f04"})
+    console.log(findAssets)
+    // const vulns = await Vuln.find()
 
 }
 
-test()
+// test()
 
 const updateSystem = async (req, res) => {
     try {
-        const system = await System.findById(req.params.id)
-        const vulns = await Vuln.find()
-        const assets = await Asset.find()
+        const system = await System.findOne({userId: req.body.userId})
+        const vulns = await Vuln.find({user: req.body.userId})
+        console.log(vulns)
+        const assets = await Asset.find({user: req.body.userId})
+        console.log(assets)
         system.vulnerabilities = vulns.length
 
         assets.forEach(asset => {
@@ -85,6 +90,8 @@ const updateSystem = async (req, res) => {
 
         system.save()
 
+        return res.status(200).json(system)
+
     } catch (err) {
         res.status(500).json({ error: err.message })
     }
@@ -107,5 +114,6 @@ const systemDetails = async (req, res) =>{
 module.exports = {
     systemIndex,
     createSystem,
-    systemDetails
+    systemDetails,
+    updateSystem
 }

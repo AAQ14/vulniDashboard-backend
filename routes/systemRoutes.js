@@ -1,8 +1,10 @@
 const router = require("express").Router()
-const {systemIndex, createSystem, systemDetails} = require("../controllers/system")
+const {systemIndex, createSystem, systemDetails, updateSystem} = require("../controllers/system")
 
 router.get("/", systemIndex)
 router.post("/add", createSystem)
 router.get("/details",systemDetails )
+router.put("/update", updateSystem)
+
 
 module.exports = router
