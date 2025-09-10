@@ -3,7 +3,7 @@ const {systemIndex, createSystem, systemDetails, updateSystem} = require("../con
 
 router.get("/", systemIndex)
 router.post("/add", createSystem)
-router.get("/details",systemDetails )
+router.get("/details/:id",systemDetails )
 router.put("/update", updateSystem)
 
 

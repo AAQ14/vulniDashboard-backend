@@ -75,8 +75,12 @@ const vulnDetails = async (req, res) => {
 }
 
 const vulnIndex = async (req, res) => {
-    try {
-        const allVulns = await Vulnerability.find().populate(['asset'])
+    try { 
+        //its giving me the vulnerabilties that are not matching the
+        console.log(req.params.userId)
+
+        const allVulns = await Vulnerability.find({ user: req.params.userId }).populate(['asset'])
+        console.log(allVulns)
         if (allVulns)
             res.status(200).json(allVulns)
         else

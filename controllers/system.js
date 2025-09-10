@@ -28,14 +28,14 @@ async function test() {
     const assets = await Asset.find()
     // console.log(assets)
     let low = 0
-    let numOfApp = 0 
+    let numOfApp = 0
     let numOfInfra = 0
     assets.forEach(asset => {
         low += asset.vulnerabilities.low
-        if(asset.type === 'Web App' ||asset.type === 'Mobile App' ||asset.type === 'Desktop Software') 
-               numOfApp += 1
-            else
-                numOfInfra += 1
+        if (asset.type === 'Web App' || asset.type === 'Mobile App' || asset.type === 'Desktop Software')
+            numOfApp += 1
+        else
+            numOfInfra += 1
     })
     // console.log(low)
     const vulns = await Vuln.find()
@@ -50,8 +50,8 @@ async function test() {
     console.log(openVuln)
     console.log("num of app: " + numOfApp + " -- num of infra: " + numOfInfra)
     // test IMPP
- 
-    const findAssets = await Asset.find({user:"68b81d302279241b23e01f04"})
+
+    const findAssets = await Asset.find({ user: "68b81d302279241b23e01f04" })
     console.log(findAssets)
     // const vulns = await Vuln.find()
 
@@ -61,19 +61,36 @@ async function test() {
 
 const updateSystem = async (req, res) => {
     try {
-        const system = await System.findOne({userId: req.body.userId})
-        const vulns = await Vuln.find({user: req.body.userId})
+        const system = await System.findOne({ userId: req.body.userId })
+        system.vulnerabilities = 0
+        system.applications = 0
+        system.infrastructures = 0
+        system.lowSeverityVulns = 0
+        system.mediumSeverityVulns = 0
+        system.highSeverityVulns = 0
+        system.criticalSeverityVulns = 0
+        system.openVulns = 0
+        system.fixedVulns = 0
+        system.inProgressVulns = 0
+        
+        // for (let [key, index] of Object.entries(system)){
+        //     if(key!=="_id" && key!==userId)
+        //         system[key] =0
+        // }
+        console.log("this is system", system)
+
+        const vulns = await Vuln.find({ user: req.body.userId })
         console.log(vulns)
-        const assets = await Asset.find({user: req.body.userId})
+        const assets = await Asset.find({ user: req.body.userId })
         console.log(assets)
         system.vulnerabilities = vulns.length
 
         assets.forEach(asset => {
             system.lowSeverityVulns += asset.vulnerabilities.low
-            system.lowSeverityVulns += asset.vulnerabilities.medium
-            system.lowSeverityVulns += asset.vulnerabilities.high
-            system.lowSeverityVulns += asset.vulnerabilities.critical
-            if(asset.type === 'Web App' ||asset.type === 'Mobile App' ||asset.type === 'Desktop Software') 
+            system.mediumSeverityVulns += asset.vulnerabilities.medium
+            system.highSeverityVulns += asset.vulnerabilities.high
+            system.criticalSeverityVulns += asset.vulnerabilities.critical
+            if (asset.type === 'Web App' || asset.type === 'Mobile App' || asset.type === 'Desktop Software')
                 system.applications += 1
             else
                 system.infrastructures += 1
@@ -97,16 +114,17 @@ const updateSystem = async (req, res) => {
     }
 }
 
-const systemDetails = async (req, res) =>{
+const systemDetails = async (req, res) => {
     try {
-        const system = await System.findOne({userId: req.body.userId})
-        if(system){
+        const system = await System.findOne({ userId: req.params.id })
+        // updateSystem(system)
+        if (system) {
             return res.status(200).json(system)
-        }else{
+        } else {
             return res.sendStatus(404)
         }
     } catch (err) {
-        return res.status(500).json({error: err.message})
+        return res.status(500).json({ error: err.message })
     }
 }
 
