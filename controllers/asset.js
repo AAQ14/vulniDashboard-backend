@@ -26,7 +26,7 @@ const assetDetails= async(req,res) =>{
 
 const assetIndex = async(req,res) => {
     try {
-        const asset = await Asset.find()
+        const asset = await Asset.find({user: req.params.userId})
         if(asset)
             res.status(200).json(asset)
         else
