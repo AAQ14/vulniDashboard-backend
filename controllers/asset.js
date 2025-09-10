@@ -13,8 +13,13 @@ const createAsset = async(req,res)=>{
 }
 
 const assetDetails= async(req,res) =>{
+    console.log(req.params.id)
     try {
+        console.log(req.params.id)
         const asset = await Asset.findById(req.params.id)
+        console.log(asset)
+        // const vulns = await Vulnerability.find({asset: asset._id})
+        // console.log(vulns)
         if(asset)
             res.status(200).json(asset)
         else

@@ -80,7 +80,7 @@ const vulnIndex = async (req, res) => {
         console.log(req.params.userId)
 
         const allVulns = await Vulnerability.find({ user: req.params.userId }).populate(['asset'])
-        console.log(allVulns)
+        // console.log(allVulns)
         if (allVulns)
             res.status(200).json(allVulns)
         else
